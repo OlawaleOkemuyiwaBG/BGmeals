@@ -27,13 +27,14 @@ const userAuth = async (req, res, next) => {
 };
 
 const adminAuth = (req, res, next) => {
-  userAuth(req, res, () => {
+  const nextFunction = () => {
     if (req.user.isAdmin) {
       next();
     } else {
       res.status(403).json({ message: "Forbidden request, Access denied!" });
     }
-  });
+  };
+  userAuth(req, res, nextFunction);
 };
 
 module.exports = {
